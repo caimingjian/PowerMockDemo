@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,10 +22,28 @@ import com.magictan.mockdemo.remoteservice.impl.RemoteServiceImpl;
 public class LocalServiceImplPowerMockTest {
 
     @InjectMocks
-    private LocalServiceImpl localService;
-    @Mock
-    private RemoteServiceImpl remoteService;
+    //需要进入执行的方法
+    LocalServiceImpl localService;
 
+    @Mock
+    //不希望执行的方法
+    RemoteServiceImpl remoteService;
+
+    /**
+     * mock远程服务、不需要测试的方法。指定返回指定结果
+     */
+    @Test
+    @PrepareForTest(RemoteServiceImpl.class)//mock的类在单测的开始用PrepareForTest说明，不然会报错
+    public void mockServiceResult(){
+        //when... return指定返回对象的值
+        when(remoteService.getRemoteNode(anyInt())).thenReturn(new Node(1,"test"));
+        //这一步模拟真实调用
+        Node remoteNode = localService.getRemoteNode(anyInt());
+        //返回结果的断言
+        Assert.assertEquals(remoteNode.getName(),"test");
+        Assert.assertEquals(remoteNode.getNum(),1);
+
+    }
     /**
      * mock new关键字
      */

@@ -48,6 +48,22 @@ public class LocalServiceImplPowerMockTest {
     }
 
     /**
+     * 模拟异常，用于测试异常流
+     * @throws MockException
+     */
+    @Test
+    @PrepareForTest(RemoteServiceImpl.class)
+    public void testException() throws MockException {
+        when(remoteService.getRemoteNode("name")).thenThrow(new MockException("message", "name"));
+        try {
+            Node name = localService.getRemoteNode("name");
+        }catch (Exception e){
+            assertEquals("exception", e.getMessage()); //验证是否返回指定异常内容
+            assertEquals("message", e.getMessage()); //验证是否返回指定异常内容
+        }
+    }
+
+    /**
      * mock new关键字
      */
     @Test

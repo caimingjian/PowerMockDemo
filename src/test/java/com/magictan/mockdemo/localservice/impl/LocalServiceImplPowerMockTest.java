@@ -2,11 +2,12 @@ package com.magictan.mockdemo.localservice.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
+import com.magictan.mockdemo.exception.MockException;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -29,6 +30,7 @@ public class LocalServiceImplPowerMockTest {
     //不希望执行的方法
     RemoteServiceImpl remoteService;
 
+
     /**
      * mock远程服务、不需要测试的方法。指定返回指定结果
      */
@@ -44,6 +46,7 @@ public class LocalServiceImplPowerMockTest {
         Assert.assertEquals(remoteNode.getNum(),1);
 
     }
+
     /**
      * mock new关键字
      */
